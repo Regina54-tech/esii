@@ -1,79 +1,292 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Academique</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Académique — ESI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
 
-<style>
-body {
-  font-family: "Lato", sans-serif;
-  background-color: rgb(100, 78, 46);
-}
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-.sidenav {
-  height: 100%;
-  width: 160px;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: rgb(33, 20, 3);
-  overflow-x: hidden;
-  padding-top: 20px;
-}
+    :root {
+      --or:      #a47f4a;
+      --or-pale: rgba(164, 127, 74, 0.18);
+      --brun:    rgb(33, 20, 3);
+      --creme:   #f5f0e8;
+      --texte:   #1a1208;
+      --blanc:   #ffffff;
+      --radius:  12px;
+    }
 
-.sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
+    html { scroll-behavior: smooth; }
 
-.sidenav a:hover {
-  color: rgb(33, 20, 3);
-}
+    body {
+      font-family: 'Lato', sans-serif;
+      background-color: var(--creme);
+      color: var(--texte);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-.main {
-  margin-left: 160px;
-  font-size: 28px;
-  padding: 0px 10px;
-}
+    /* ── En-tête ── */
+    header {
+      background-color: var(--brun);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
 
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
-}
-</style>
+    .header-title {
+      font-family: 'Playfair Display', serif;
+      color: var(--blanc);
+      font-size: clamp(1rem, 3vw, 1.4rem);
+    }
+
+    .header-title span {
+      display: block;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      margin-top: 2px;
+    }
+
+    .btn-quitter {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1.1rem;
+      background: transparent;
+      border: 1.5px solid var(--or);
+      border-radius: 999px;
+      color: var(--or);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-quitter:hover {
+      background: var(--or);
+      color: var(--brun);
+    }
+
+    .btn-quitter::before {
+      content: '←';
+      font-size: 1rem;
+    }
+
+    /* ── Contenu principal ── */
+    main {
+      flex: 1;
+      max-width: 900px;
+      width: 100%;
+      margin: 2.5rem auto;
+      padding: 0 1.25rem;
+    }
+
+    /* ── Titre de section (filière) ── */
+    .filiere {
+      margin-bottom: 2rem;
+    }
+
+    .filiere-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .filiere-badge {
+      background: var(--brun);
+      color: var(--or);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .filiere h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.15rem, 3vw, 1.55rem);
+      color: var(--brun);
+      line-height: 1.3;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    .filiere h1::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 3px;
+      background: var(--or);
+      border-radius: 2px;
+      margin-top: 0.4rem;
+    }
+
+    /* ── Grille de matières ── */
+    .matieres-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.85rem;
+      list-style: none;
+    }
+
+    .matiere-card {
+      background: var(--blanc);
+      border: 1px solid rgba(164, 127, 74, 0.25);
+      border-left: 4px solid var(--or);
+      border-radius: var(--radius);
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+
+    .matiere-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(164, 127, 74, 0.18);
+      border-left-color: var(--brun);
+    }
+
+    .matiere-card a {
+      display: block;
+      padding: 0.9rem 1.1rem;
+      color: var(--brun);
+      text-decoration: none;
+      font-size: clamp(0.88rem, 2vw, 0.98rem);
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .matiere-card a::after {
+      content: ' →';
+      color: var(--or);
+      font-size: 0.9rem;
+    }
+
+    /* ── Séparateur entre filières ── */
+    .filiere + .filiere {
+      border-top: 1px solid rgba(164, 127, 74, 0.2);
+      padding-top: 2rem;
+      margin-top: 0.5rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background-color: var(--brun);
+      padding: 1rem 1.25rem;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+    }
+
+    footer p strong {
+      color: var(--or);
+    }
+
+    /* ── Responsive mobile ── */
+    @media (max-width: 480px) {
+      main {
+        margin: 1.5rem auto;
+      }
+
+      .matieres-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .filiere h1 {
+        font-size: 1.05rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="sidenav">
-  <a href="index.html">Quitter</a>
-</div>
+  <!-- ══ En-tête ══ -->
+  <header>
+    <div class="header-title">
+      Académique
+      <span>Ecole Supérieure d'Informatique</span>
+    </div>
+    <a href="index.html" class="btn-quitter">Quitter</a>
+  </header>
 
-<div class="main">
-  <ul>
-        <li><h1>Ingénierie des Systèmes d'information (ISI)</h1>
-            <ul>
-       <li> <a href="Base de donnee.html" style="color: aliceblue;">Bases de données</a></li>
-       <li> <a href="Système d'information.html"  style="color: aliceblue;">Système d'information</a></li>
-       <li> <a href="Reseaux.html"  style="color: aliceblue;">Réseaux</a></li>
-       <li> <a href="Algorithmique et programation.html"  style="color: aliceblue;">ALgorithmique et programmation</a></li>       
-       </ul>
-       </li>
-       <li> <h1>Ingénierie des Réseaux et Systèmes (IRS)</h1> 
-            <ul>
-       <li> <a href="Conception de réseaux locaux.html"  style="color: aliceblue;">Conception de réseaux locaux</a></li>
-       <li> <a href="Traitement du signal.html"  style="color: aliceblue;">Traitement du signal</a></li> 
-       <li> <a href="Maintenance.html"  style="color: aliceblue;">Maintenance</a></li> 
-       <li> <a href="Informatique industrielle.html"  style="color: aliceblue;">Informatique Industrielle</a></li>  
-       </ul>
-       </li>
-    </ul>
-   <footer> 
-        <p>&copy; 2026 Ecole Superieure d'Informatique Info|Promotion 2025-2026. Tous droits réservés.</p>
-  </footer>   
+  <!-- ══ Contenu ══ -->
+  <main>
+
+    <!-- Filière ISI -->
+    <div class="filiere">
+      <div class="filiere-header">
+        <span class="filiere-badge">ISI</span>
+      </div>
+      <h1>Ingénierie des Systèmes d'Information (ISI)</h1>
+      <ul class="matieres-grid">
+        <li class="matiere-card">
+          <a href="Base de donnee.html">Bases de données</a>
+        </li>
+        <li class="matiere-card">
+          <a href="Système d'information.html">Système d'information</a>
+        </li>
+        <li class="matiere-card">
+          <a href="Reseaux.html">Réseaux</a>
+        </li>
+        <li class="matiere-card">
+          <a href="Algorithmique et programation.html">Algorithmique et programmation</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Filière IRS -->
+    <div class="filiere">
+      <div class="filiere-header">
+        <span class="filiere-badge">IRS</span>
+      </div>
+      <h1>Ingénierie des Réseaux et Systèmes (IRS)</h1>
+      <ul class="matieres-grid">
+        <li class="matiere-card">
+          <a href="Conception de réseaux locaux.html">Conception de réseaux locaux</a>
+        </li>
+        <li class="matiere-card">
+          <a href="Traitement du signal.html">Traitement du signal</a>
+        </li>
+        <li class="matiere-card">
+          <a href="Maintenance.html">Maintenance</a>
+        </li>
+        <li class="matiere-card">
+          <a href="Informatique industrielle.html">Informatique Industrielle</a>
+        </li>
+      </ul>
+    </div>
+
+  </main>
+
+  <!-- ══ Footer ══ -->
+  <footer>
+    <p>&copy; 2026 <strong>Ecole Supérieure d'Informatique</strong> | Promotion 2025-2026. Tous droits réservés.</p>
+  </footer>
+
 </body>
 </html>
