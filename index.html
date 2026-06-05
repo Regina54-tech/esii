@@ -4,291 +4,468 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PROJET 2</title>
+  <title>PROJET 2 — ESI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="tpFichier-style.css">
+
   <style>
-    * {
+    /* ── Reset & base ── */
+    *, *::before, *::after {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
+
+    :root {
+      --or:      #a47f4a;
+      --or-pale: rgba(164, 127, 74, 0.15);
+      --brun:    rgb(33, 20, 3);
+      --creme:   #f5f0e8;
+      --texte:   #1a1208;
+      --blanc:   #ffffff;
+      --radius:  12px;
+    }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: Verdana, sans-serif;
-      position: absolute;
+      font-family: 'Lato', Verdana, sans-serif;
+      background-color: var(--creme);
+      color: var(--texte);
+      min-height: 100vh;
+    }
+
+    img { display: block; max-width: 100%; height: auto; }
+
+    /* ── Header ── */
+    header {
+      background-color: var(--brun);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .header-brand img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--or);
+      flex-shrink: 0;
+    }
+
+    .header-brand-text {
+      color: var(--creme);
+    }
+
+    .header-brand-text strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--blanc);
+      line-height: 1.2;
+    }
+
+    .header-brand-text span {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.03em;
+    }
+
+    .header-logo-unb img {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--or);
+      flex-shrink: 0;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      background-color: var(--brun);
+      border-top: 1px solid var(--or-pale);
+      position: sticky;
       top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      z-index: 100;
     }
 
-    /* ── Logo UBD (en-tête) ── */
-    .logo-header {
-      margin-left: 625px;
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0;
     }
 
-    /* ── Barre de marque ESI ── */
-    #nav-brand {
-      margin-left: 560px;
+    nav ul li a {
+      display: block;
+      padding: 0.85rem 1.4rem;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s, background 0.2s;
+      border-bottom: 3px solid transparent;
     }
 
-    #nav-brand .container ul {
-      background-color: rgb(33, 20, 3);
-    }
-
-    #nav-brand .container ul p {
-      border: 20px solid;
-      border-radius: 20px;
-      border-color: rgba(164, 127, 74, 0.475);
-      color: #dcd9d9;
+    nav ul li a:hover {
+      color: var(--or);
+      border-bottom-color: var(--or);
+      background-color: rgba(255,255,255,0.04);
     }
 
     /* ── Slideshow ── */
-    .slideshow-container {
-      max-width: 1000px;
+    .slideshow-wrapper {
       position: relative;
-      margin: auto;
+      width: 100%;
+      overflow: hidden;
+      background: var(--brun);
+    }
+
+    .slideshow-container {
+      position: relative;
+      width: 100%;
     }
 
     .mySlides {
       display: none;
     }
 
-    img {
-      vertical-align: middle;
-    }
-
     .mySlides img {
-      width: 1000px;
-      height: 550px;
-      display: grid;
-      place-items: center;
-      border-radius: 600px;
-    }
-
-    .mySlides.center {
-      text-align: center;
-    }
-
-    .text {
-      color: #141c37;
-      font-size: 15px;
-      padding: 8px 12px;
-      position: absolute;
-      bottom: 8px;
       width: 100%;
-      text-align: center;
+      height: clamp(220px, 45vw, 520px);
+      object-fit: cover;
+      border-radius: 0;
     }
 
-    /* ── Dots ── */
-    .dot {
-      height: 15px;
-      width: 15px;
-      margin: 0 2px;
-      background-color: #000000;
-      border-radius: 50%;
-      display: inline-block;
-      transition: background-color 2.6s ease;
+    .slide-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(33,20,3,0.55) 0%, transparent 60%);
+      pointer-events: none;
     }
 
-    .active {
-      background-color: white;
-    }
-
-    /* ── Animation fade ── */
     .fade {
-      animation-name: fade;
-      animation-duration: 2.5s;
+      animation: fade 1.2s ease-in-out;
     }
 
     @keyframes fade {
-      from { opacity: 0.4; }
+      from { opacity: 0.3; }
       to   { opacity: 1;   }
     }
 
-    @media only screen and (max-width: 100px) {
-      .text { font-size: 101px; }
+    /* ── Dots ── */
+    .dots-wrapper {
+      text-align: center;
+      padding: 0.75rem 0;
+      background: var(--brun);
     }
 
-    /* ── Barre de navigation ── */
-    #nav {
-      border: 20px solid;
-      border-radius: 20px;
-      border-color: rgb(33, 20, 3);
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin: 0 5px;
+      background-color: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.4s ease, transform 0.3s ease;
     }
 
-    #nav ul {
-      color: #f2f2f2;
+    .dot.active {
+      background-color: var(--or);
+      transform: scale(1.3);
     }
 
-    #nav ul a {
-      color: #f2f2f2;
-      border-radius: 20px;
+    /* ── Section intro ── */
+    .section-intro {
+      max-width: 860px;
+      margin: 2.5rem auto;
+      padding: 0 1.25rem;
     }
 
-    /* ── Contenu principal ── */
-    .new .content h2 {
-      /* hérité de tpFichier-style.css */
+    .section-intro h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.3rem, 3.5vw, 2rem);
+      color: var(--brun);
+      margin-bottom: 1rem;
+      position: relative;
+      padding-bottom: 0.6rem;
     }
 
-    /* ── Administrateurs ── */
-    .animation-name .content {
-      /* hérité */
+    .section-intro h2::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: var(--or);
+      margin-top: 0.4rem;
+      border-radius: 2px;
+    }
+
+    .section-intro p {
+      font-size: clamp(0.92rem, 2vw, 1.05rem);
+      line-height: 1.85;
+      color: #3a2c18;
+    }
+
+    /* ── Card admins ── */
+    .admins-section {
+      background-color: var(--blanc);
+      border-top: 3px solid var(--or);
+      padding: 2rem 1.25rem;
+    }
+
+    .admins-inner {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .admins-inner h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: var(--brun);
+      margin-bottom: 1.25rem;
+      font-style: italic;
+    }
+
+    .admins-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .admin-card {
+      background: var(--creme);
+      border: 1px solid rgba(164, 127, 74, 0.3);
+      border-left: 4px solid var(--or);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--brun);
+      transition: background 0.2s;
+    }
+
+    .admin-card:hover {
+      background: rgba(164, 127, 74, 0.1);
     }
 
     /* ── Footer ── */
-    #footer {
-      background-color: rgb(33, 20, 3);
+    footer {
+      background-color: var(--brun);
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
     }
 
-    #footer p {
-      background-color: #f2f2f2;
+    footer img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--or);
+      opacity: 0.85;
+    }
+
+    .footer-copy {
+      flex: 1;
+      min-width: 200px;
+      text-align: center;
+    }
+
+    .footer-copy p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+    }
+
+    .footer-copy p strong {
+      color: var(--or);
     }
 
     /* ── Marquee ── */
     .marquee {
-      background-color: rgb(33, 20, 3);
+      background-color: var(--or);
       overflow: hidden;
+      padding: 0.55rem 0;
     }
 
     .marquee p {
       white-space: nowrap;
-      font-size: 28px;
-      color: rgb(194, 192, 188);
-      padding: 2px;
-      animation: scroll 6s linear infinite;
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
+      font-weight: 700;
+      color: var(--brun);
+      letter-spacing: 0.03em;
+      animation: scroll-marquee 14s linear infinite;
+      display: inline-block;
     }
 
-    @keyframes scroll {
-      0%   { transform: translateX(100%);  }
+    @keyframes scroll-marquee {
+      0%   { transform: translateX(100vw);  }
       100% { transform: translateX(-100%); }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      nav ul li a {
+        padding: 0.7rem 0.9rem;
+        font-size: 0.78rem;
+      }
+
+      .header-brand-text strong {
+        font-size: 0.88rem;
+      }
+
+      .admins-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- ── Logo UBD ── -->
-  <div class="content logo-header">
-    <img src="UBD_logo.png" alt="logo de UNB" width="100px" height="100px">
-  </div>
-
-  <!-- ── Barre de marque ESI ── -->
-  <div id="nav-brand">
-    <div class="container">
-      <ul>
-        <li><img src="ESI.jpg" alt="logo de ESI" width="100px" height="100px"></li>
-        <li><p>Ecole Superieure d'Informatique</p></li>
-      </ul>
+  <!-- ══ En-tête ══ -->
+  <header>
+    <div class="header-brand">
+      <img src="ESI.jpg" alt="Logo de l'ESI">
+      <div class="header-brand-text">
+        <strong>Ecole Supérieure d'Informatique</strong>
+        <span>Université de Bobo-Dioulasso</span>
+      </div>
     </div>
-  </div>
-
-  <!-- ── Diaporama ── -->
-  <div class="slideshow-container">
-
-    <div class="mySlides fade">
-      <img src="COMPUTER.jpg" alt="Ordinateur">
+    <div class="header-logo-unb">
+      <img src="UBD_logo.png" alt="Logo de l'UNB">
     </div>
+  </header>
 
-    <div class="mySlides fade center">
-      <img src="Composante.jpg" alt="Composantes">
-    </div>
-
-    <div class="mySlides fade">
-      <img src="DESC.jpg" alt="Description">
-    </div>
-
-  </div>
-
-  <br>
-
-  <!-- ── Indicateurs (dots) ── -->
-  <div style="text-align: center;">
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-  </div>
-
-  <!-- ── Barre de navigation ── -->
-  <div id="nav">
+  <!-- ══ Navigation ══ -->
+  <nav>
     <ul>
       <li><a href="index.html">Accueil</a></li>
       <li><a href="Académique.html">Académique</a></li>
-      <li><a href="Admission.html">Adimission</a></li>
+      <li><a href="Admission.html">Admission</a></li>
       <li><a href="Galerie.html">Galerie</a></li>
     </ul>
+  </nav>
+
+  <!-- ══ Diaporama ══ -->
+  <div class="slideshow-wrapper">
+    <div class="slideshow-container">
+
+      <div class="mySlides fade">
+        <img src="COMPUTER.jpg" alt="Salle informatique ESI">
+        <div class="slide-overlay"></div>
+      </div>
+
+      <div class="mySlides fade">
+        <img src="Composante.jpg" alt="Composantes électroniques">
+        <div class="slide-overlay"></div>
+      </div>
+
+      <div class="mySlides fade">
+        <img src="DESC.jpg" alt="Étudiants ESI">
+        <div class="slide-overlay"></div>
+      </div>
+
+    </div>
+
+    <div class="dots-wrapper">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
   </div>
 
-  <!-- ── Contenu principal ── -->
-  <div class="new">
-    <div class="content">
-      <h2>Une petite introduction de "ESI"</h2>
+  <!-- ══ Introduction ══ -->
+  <section class="section-intro">
+    <h2>Une petite introduction de "ESI"</h2>
+    <p>
+      Ouverte à la rentrée 1990-1991 à Ouagadougou, l'Ecole Supérieure d'Informatique (ESI) est le premier
+      établissement public d'enseignement supérieur en informatique du Burkina Faso. Dans un monde où la technologie
+      s'est implantée dans toutes les activités humaines, l'ESI se charge de mettre à la disposition des étudiants
+      la meilleure façon qui puisse exister afin de booster le BURKINA FASO au sommet du développement et d'une
+      révolution totale et réelle. L'ESI c'est bien plus qu'une école informatique. C'est un tremplin vers l'excellence.
+      Ici on ne se contente pas d'apprendre à coder : on apprend à concevoir des solutions innovantes, à travailler
+      en équipe comme dans le monde professionnel, et à devenir des ingénieurs complets, recherchés dès la sortie.
+      Les débouchés sont nombreux (cybersécurité, data science, IA, développement…), le niveau est exigeant et
+      l'ambiance entre étudiants est fraternelle et solidaire. Si vous voulez allier passion pour la technologie
+      et avenir prometteur, ESI est le bon choix après le BAC !!!
+    </p>
+  </section>
+
+  <!-- ══ Administrateurs ══ -->
+  <div class="admins-section">
+    <div class="admins-inner">
+      <h3>Les administrateurs de la page sont :</h3>
+      <div class="admins-grid">
+        <div class="admin-card">GANOU Gnientowô Regina Margaret</div>
+        <div class="admin-card">GUIBILA Nouratou</div>
+        <div class="admin-card">KABORE Latifatou</div>
+        <div class="admin-card">SAGNON Mahinkié</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ Footer ══ -->
+  <footer>
+    <img src="UBD_logo.png" alt="Logo UNB">
+    <div class="footer-copy">
       <p>
-        Ouverte à la rentrée 1990-1991 à Ouagadougou, l'Ecole Supérieure d'Informatique (ESI) est le premier
-        établissement public d'enseignement supérieur en informatique du Burkina Faso. Dans un monde ou la technologie
-        s'est implanté dans tous les activités humaines, l'ESI se charge de mettre à la disposion des étudiants la
-        meilleur façon qui puisse exister afin de booster le BURKINA FASO au sommet du devéloppement et d'une révolution
-        total et réelle. L'ESI c'est bien plus qu'une école informatique. C'est un tremplein vers l'excelence. Ici on
-        se contente pas d'apprendre à coder : on apprend à concevoir des solutions innovantes ; à travailler en équipe
-        comme dans le monde professionnel, et à devenir des ingénieurs complets, récherchés dès la sortie. Les débauchés
-        sont nombreux (cybersécurité, data science, IA, développement..), le niveau est exigeant et l'ambiance entre
-        étudiants est fraternelle et soidaire. Si vous voulez alliez passion pour la technologie et avenir promotteur,
-        ESI est le bon choix après le BAC !!!
+        &copy; 2026 <strong>Ecole Supérieure d'Informatique</strong><br>
+        Promotion 2025-2026 — Tous droits réservés.
       </p>
     </div>
-  </div>
+    <img src="ESI.jpg" alt="Logo ESI">
+  </footer>
 
-  <!-- ── Administrateurs ── -->
-  <div class="animation-name">
-    <div class="content">
-      <b><i>Les administrateurs de la page sont :</i></b>
-      <ul>
-        <li><b>GANOU Gnientowô Regina Margaret</b></li>
-        <li><b>GUIBILA Nouratou</b></li>
-        <li><b>KABORE Latifatou</b></li>
-        <li><b>SAGNON Mahinkié</b></li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- ── Logo UBD (pied) ── -->
-  <div>
-    <img src="UBD_logo.png" alt="logo de UNB" width="100px" height="100px">
-  </div>
-
-  <!-- ── Footer ── -->
-  <div id="footer">
-    <p>&copy; 2026 Ecole Supérieure d'Informatique Info | Promotion 2025-2026. Tous droits réservés.</p>
-    <div class="kingster-copyright-wrapper"></div>
-  </div>
-
-  <!-- ── Marquee ── -->
+  <!-- ══ Marquee ══ -->
   <div class="marquee">
-    <p>Bienvenue dans l'univers de la programmation et du réseaux la où les élites immergent.</p>
+    <p>Bienvenue dans l'univers de la programmation et du réseaux — là où les élites émergent.</p>
   </div>
 
-  <!-- ── Script diaporama ── -->
+  <!-- ══ Script diaporama ══ -->
   <script>
     let slideIndex = 0;
     showSlides();
 
     function showSlides() {
-      const slides = document.getElementsByClassName("mySlides");
-      const dots   = document.getElementsByClassName("dot");
+      const slides = document.getElementsByClassName('mySlides');
+      const dots   = document.getElementsByClassName('dot');
 
       for (let i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
+        slides[i].style.display = 'none';
       }
 
       slideIndex++;
       if (slideIndex > slides.length) { slideIndex = 1; }
 
       for (let i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace(" active", "");
+        dots[i].classList.remove('active');
       }
 
-      slides[slideIndex - 1].style.display = "block";
-      dots[slideIndex - 1].className += " active";
+      slides[slideIndex - 1].style.display = 'block';
+      dots[slideIndex - 1].classList.add('active');
 
-      setTimeout(showSlides, 2000);
+      setTimeout(showSlides, 3000);
     }
   </script>
 
