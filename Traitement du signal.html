@@ -1,81 +1,314 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traitement du signal</title>
-<style>
-body {
-  font-family: "Lato", sans-serif;
-  background-color:  rgb(100, 78, 46);
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traitement du signal — ESI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
 
-.sidenav {
-  height: 100%;
-  width: 160px;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: rgb(33, 20, 3);
-  overflow-x: hidden;
-  padding-top: 20px;
-}
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-.sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
+    :root {
+      --or:      #a47f4a;
+      --or-pale: rgba(164, 127, 74, 0.18);
+      --brun:    rgb(33, 20, 3);
+      --creme:   #f5f0e8;
+      --texte:   #1a1208;
+      --blanc:   #ffffff;
+      --radius:  12px;
+    }
 
-.sidenav a:hover {
-  color: #43341da1;
-}
+    html { scroll-behavior: smooth; }
 
-.main {
-  margin-left: 160px;
-  font-size: 28px;
-  padding: 0px 10px;
-}
+    body {
+      font-family: 'Lato', sans-serif;
+      background-color: var(--creme);
+      color: var(--texte);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
-}
-</style>
+    /* ── En-tête ── */
+    header {
+      background-color: var(--brun);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .header-title {
+      font-family: 'Playfair Display', serif;
+      color: var(--blanc);
+      font-size: clamp(1rem, 3vw, 1.4rem);
+    }
+
+    .header-title span {
+      display: block;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      margin-top: 2px;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-nav.outline {
+      background: transparent;
+      border: 1.5px solid var(--or);
+      color: var(--or);
+    }
+
+    .btn-nav.outline:hover {
+      background: var(--or);
+      color: var(--brun);
+    }
+
+    .btn-nav.filled {
+      background: var(--or);
+      border: 1.5px solid var(--or);
+      color: var(--brun);
+    }
+
+    .btn-nav.filled:hover {
+      background: transparent;
+      color: var(--or);
+    }
+
+    /* ── Contenu principal ── */
+    main {
+      flex: 1;
+      max-width: 820px;
+      width: 100%;
+      margin: 2.5rem auto;
+      padding: 0 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    /* ── Carte ── */
+    .card {
+      background: var(--blanc);
+      border-radius: var(--radius);
+      border: 1px solid rgba(164, 127, 74, 0.22);
+      padding: clamp(1.25rem, 4vw, 2rem);
+    }
+
+    /* ── Titre de section ── */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.15rem, 3vw, 1.5rem);
+      color: var(--brun);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.2rem;
+      border-bottom: 2px solid var(--or);
+    }
+
+    /* ── Texte intro ── */
+    .intro-text {
+      font-size: clamp(0.92rem, 2vw, 1.02rem);
+      line-height: 1.8;
+      color: #3a2c18;
+    }
+
+    /* ── Liste objectifs ── */
+    .objectifs-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .objectifs-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      padding: 0.85rem 1rem;
+      background: var(--creme);
+      border-radius: var(--radius);
+      border-left: 4px solid var(--or);
+      font-size: clamp(0.88rem, 2vw, 0.98rem);
+      font-weight: 700;
+      color: var(--brun);
+      line-height: 1.5;
+      transition: background 0.2s;
+      flex-direction: column;
+    }
+
+    .objectifs-list li:hover {
+      background: rgba(164, 127, 74, 0.1);
+    }
+
+    .objectifs-list li .li-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+    }
+
+    .objectifs-list li .li-header::before {
+      content: '✓';
+      color: var(--or);
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── Tags domaines ── */
+    .domaines-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--or-pale);
+      padding-left: 1.85rem;
+    }
+
+    .domaines-label {
+      width: 100%;
+      font-size: 0.82rem;
+      color: #6b5230;
+      font-style: italic;
+      margin-bottom: 0.25rem;
+      font-weight: 400;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.3rem 0.85rem;
+      background: var(--brun);
+      color: var(--or);
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background-color: var(--brun);
+      padding: 1rem 1.25rem;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+    }
+
+    footer p strong {
+      color: var(--or);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .header-nav {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="sidenav">
-  <a href="Traitement du signal.html">Description du cours</a>
-  <a href="PODA.html">Les professeur (s) et horaires du cours</a>
-  <a href="Académique.html">Quitter</a>
-</div>
+  <!-- ══ En-tête ══ -->
+  <header>
+    <div class="header-title">
+      Traitement du signal
+      <span>Ecole Supérieure d'Informatique</span>
+    </div>
+    <nav class="header-nav">
+      <a href="Traitement du signal.html" class="btn-nav filled">Description du cours</a>
+      <a href="PODA.html" class="btn-nav outline">Professeur &amp; Horaires</a>
+      <a href="Académique.html" class="btn-nav outline">← Quitter</a>
+    </nav>
+  </header>
 
-<div class="main">
-  
-  <h1>TRAITEMENT DU SIGNAL</h1>
-   <p>Le Traitement du Signal est une discipline scientifique et une branche de l'ingenierie qui consiste à analyser;modifier et interpréter des signaux(audio,vidéo,mesures physiques) pour en extraire ou e améliorer l'information utile.Il sert de base aux télécommunications,à l'électronique et à l'informatique</p>
-   <h1>OBJECTIFS DU COURS</h1> 
-   <ul>
-    <h2>Connaître les fondéments du signal</h2>
-   </ul>
-    <ul>
-    <h2>Connaître les principales méthodes du traitement</h2>
-   </ul>
-   <ul>
-    <h2>Connaître les différents domaines d'application.</h2>
-   </ul>
-   <ul>
-    <h2>Connaître un minimum des différents languages de programmation</h2>
-    <p>Ex:Télécomunications,Imagerie et Multimédia,Ingénierie biochimicale </p>
-    </ul>
-   <footer> 
-  
-        <p>&copy; 2026 Ecole Supérieure d'Informatique Info|Promotion 2025-2026. Tous droits réservés.</p>
-      
-  </footer>   
+  <!-- ══ Contenu ══ -->
+  <main>
+
+    <!-- Introduction -->
+    <div class="card">
+      <h2 class="section-title">Traitement du signal</h2>
+      <p class="intro-text">
+        Le traitement du signal est une discipline scientifique et une branche de l'ingénierie
+        qui consiste à analyser, modifier et interpréter des signaux (audio, vidéo, mesures physiques)
+        pour en extraire ou améliorer l'information utile. Il sert de base aux télécommunications,
+        à l'électronique et à l'informatique.
+      </p>
+    </div>
+
+    <!-- Objectifs -->
+    <div class="card">
+      <h2 class="section-title">Objectifs du cours</h2>
+      <ul class="objectifs-list">
+
+        <li>
+          <div class="li-header">Connaître les fondements du signal</div>
+        </li>
+
+        <li>
+          <div class="li-header">Connaître les principales méthodes du traitement</div>
+        </li>
+
+        <li>
+          <div class="li-header">Connaître les différents domaines d'application</div>
+        </li>
+
+        <li>
+          <div class="li-header">Exemples de domaines d'application</div>
+          <div class="domaines-tags">
+            <span class="domaines-label">Exemples :</span>
+            <span class="tag">Télécommunications</span>
+            <span class="tag">Imagerie et Multimédia</span>
+            <span class="tag">Ingénierie biomédicale</span>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+
+  </main>
+
+  <!-- ══ Footer ══ -->
+  <footer>
+    <p>&copy; 2026 <strong>Ecole Supérieure d'Informatique</strong> | Promotion 2025-2026. Tous droits réservés.</p>
+  </footer>
+
 </body>
 </html>
