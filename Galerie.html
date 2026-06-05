@@ -1,309 +1,668 @@
-<html>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+<!DOCTYPE html>
+<html lang="fr">
 
-  body {
-    font-family: Georgia, serif;
-    background-color: rgb(100, 78, 46);  }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galerie — ESI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
 
-  h2 {
-    text-align: center;
-    padding: 30px 0 20px;
-    font-size: 2em;
-    color: #4e1d08fb;
-    letter-spacing: 2px;
-  }
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-    padding: 20px 40px 40px;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
+    :root {
+      --or:      #a47f4a;
+      --or-pale: rgba(164, 127, 74, 0.18);
+      --brun:    rgb(33, 20, 3);
+      --brun-mid: rgb(100, 78, 46);
+      --creme:   #f5f0e8;
+      --texte:   #1a1208;
+      --blanc:   #ffffff;
+      --radius:  10px;
+    }
 
-  .column {
-    flex: 0 0 calc(33.33% - 16px);
-    max-width: calc(33.33% - 16px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+    html { scroll-behavior: smooth; }
 
-  @media (max-width: 900px) {
-    .column { flex: 0 0 calc(50% - 16px); max-width: calc(50% - 16px); }
-  }
-  @media (max-width: 500px) {
-    .column { flex: 0 0 100%; max-width: 100%; }
-  }
+    body {
+      font-family: 'Lato', Georgia, serif;
+      background-color: var(--creme);
+      color: var(--texte);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-  .column img,
-  .column video {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    display: block;
-    border-radius: 6px;
-    transition: 0.3s;
-  }
+    /* ── En-tête ── */
+    header {
+      background-color: var(--brun);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
 
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    padding-top: 60px;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    overflow: auto;
-    background-color: rgb(100, 78, 46);
-  }
+    .header-title {
+      font-family: 'Playfair Display', serif;
+      color: var(--blanc);
+      font-size: clamp(1rem, 3vw, 1.4rem);
+    }
 
-  .modal-content {
-    position: relative;
-    background-color: rgb(165, 133, 83);
-    margin: auto;
-    padding: 0;
-    width: 90%;
-    max-width: 1200px;
-  }
+    .header-title span {
+      display: block;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      margin-top: 2px;
+    }
 
-  .close {
-    color: rgb(68, 45, 31);
-    position: absolute;
-    top: 10px;
-    right: 25px;
-    font-size: 35px;
-    font-weight: bold;
-    z-index: 10;
-  }
-  .close:hover { color: #e4e1e1; cursor: pointer; }
+    .btn-quitter {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1.1rem;
+      background: transparent;
+      border: 1.5px solid var(--or);
+      border-radius: 999px;
+      color: var(--or);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
 
-  .prev, .next {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    width: auto;
-    padding: 16px;
-    margin-top: -50px;
-    color: rgb(234, 231, 231);
-    font-weight: bold;
-    font-size: 20px;
-    transition: 0.6s ease;
-    border-radius: 0 3px 3px 0;
-    user-select: none;
-    -webkit-user-select: none;
-  }
-  .next { right: 0; border-radius: 3px 0 0 3px; }
-  .prev:hover, .next:hover { background-color: rgba(74, 12, 12, 0.8); }
+    .btn-quitter:hover {
+      background: var(--or);
+      color: var(--brun);
+    }
 
-  .numbertext {
-    color: #141111;
-    font-size: 12px;
-    padding: 8px 12px;
-    position: absolute;
-    top: 0;
-  }
+    .btn-quitter::before {
+      content: '←';
+      font-size: 1rem;
+    }
 
-  img { margin-bottom: -4px; }
+    /* ── Titre page ── */
+    .page-title {
+      text-align: center;
+      padding: 2rem 1rem 1.25rem;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      color: var(--brun);
+      letter-spacing: 2px;
+      font-style: italic;
+    }
 
-  .caption-container {
-    text-align: center;
-    background-color: rgb(173, 156, 131);
-    padding: 2px 16px;
-    color: rgb(33, 20, 3);
-  }
+    .page-title::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: var(--or);
+      border-radius: 2px;
+      margin: 0.5rem auto 0;
+    }
 
-  .demo { opacity: 0.6; }
-  .active, .demo:hover { opacity: 1; }
+    /* ── Grille galerie ── */
+    main {
+      flex: 1;
+      max-width: 1300px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1rem 1.25rem 3rem;
+    }
 
-  .cursor { cursor: pointer; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
 
-  img.hover-shadow, video.hover-shadow { transition: 0.3s; }
-  .hover-shadow:hover {
-    box-shadow: 0 4px 8px 0 rgba(58,33,7,0.925), 0 6px 20px 0 rgba(70, 40, 40, 0.906);
-    transform: scale(1.03);
-  }
+    @media (max-width: 900px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
 
-  .mySlides img,
-  .mySlides video {
-    width: 1000px;
-    height: auto;
-    max-height: 75vh;
-    object-fit: contain;
-  }
-</style>
+    @media (max-width: 500px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Carte média ── */
+    .media-card {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--brun);
+      cursor: pointer;
+    }
+
+    .media-card img,
+    .media-card video {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease, opacity 0.3s ease;
+    }
+
+    .media-card:hover img,
+    .media-card:hover video {
+      transform: scale(1.05);
+      opacity: 0.88;
+    }
+
+    .media-card .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(33,20,3,0.65) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .media-card:hover .card-overlay {
+      opacity: 1;
+    }
+
+    .media-card .card-label {
+      position: absolute;
+      bottom: 0.6rem;
+      left: 0.75rem;
+      right: 0.75rem;
+      color: var(--blanc);
+      font-size: 0.8rem;
+      font-weight: 700;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+
+    .media-card:hover .card-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Icône lecture pour vidéo */
+    .video-play-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      background: rgba(33,20,3,0.65);
+      border: 2px solid var(--or);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--or);
+      font-size: 1.1rem;
+      pointer-events: none;
+      transition: background 0.2s;
+    }
+
+    .media-card:hover .video-play-icon {
+      background: var(--or);
+      color: var(--brun);
+    }
+
+    /* ── Modal ── */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background-color: rgba(10, 6, 1, 0.92);
+      overflow-y: auto;
+      padding: 60px 0 30px;
+    }
+
+    .modal.open { display: flex; flex-direction: column; align-items: center; }
+
+    .modal-inner {
+      position: relative;
+      width: 92%;
+      max-width: 1100px;
+      background: var(--brun);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    /* Fermer */
+    .btn-close {
+      position: fixed;
+      top: 14px;
+      right: 20px;
+      font-size: 2rem;
+      color: var(--or);
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 300;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .btn-close:hover { color: var(--blanc); }
+
+    /* Slides du modal */
+    .mySlides { display: none; position: relative; }
+    .mySlides.active { display: block; }
+
+    .mySlides img,
+    .mySlides video {
+      width: 100%;
+      height: auto;
+      max-height: 72vh;
+      object-fit: contain;
+      display: block;
+      background: #000;
+    }
+
+    .numbertext {
+      position: absolute;
+      top: 10px;
+      left: 14px;
+      color: rgba(255,255,255,0.65);
+      font-size: 0.8rem;
+      background: rgba(0,0,0,0.4);
+      padding: 2px 8px;
+      border-radius: 999px;
+      z-index: 10;
+    }
+
+    /* Flèches */
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(33,20,3,0.6);
+      color: var(--blanc);
+      border: none;
+      font-size: 1.5rem;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      z-index: 20;
+      transition: background 0.2s;
+      line-height: 1;
+    }
+
+    .prev { left: 0; border-radius: 0 6px 6px 0; }
+    .next { right: 0; border-radius: 6px 0 0 6px; }
+    .prev:hover, .next:hover { background: var(--or); color: var(--brun); }
+
+    /* Légende */
+    .caption-bar {
+      background: rgba(33,20,3,0.85);
+      text-align: center;
+      padding: 0.6rem 1rem;
+      color: rgba(255,255,255,0.8);
+      font-size: 0.88rem;
+      font-style: italic;
+      min-height: 2.2rem;
+    }
+
+    /* Miniatures */
+    .thumbs-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 5px;
+      padding: 10px;
+      background: var(--brun);
+      border-top: 1px solid rgba(164,127,74,0.2);
+    }
+
+    .thumb {
+      width: 60px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 4px;
+      cursor: pointer;
+      opacity: 0.5;
+      border: 2px solid transparent;
+      transition: opacity 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+
+    .thumb.active,
+    .thumb:hover {
+      opacity: 1;
+      border-color: var(--or);
+    }
+
+    .thumb-video-wrap {
+      position: relative;
+      width: 60px;
+      height: 50px;
+      flex-shrink: 0;
+    }
+
+    .thumb-video-wrap video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      border: 2px solid transparent;
+      opacity: 0.5;
+      transition: opacity 0.2s, border-color 0.2s;
+    }
+
+    .thumb-video-wrap.active video,
+    .thumb-video-wrap:hover video {
+      opacity: 1;
+      border-color: var(--or);
+    }
+
+    .thumb-video-wrap .play-badge {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--or);
+      font-size: 1rem;
+      pointer-events: none;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background-color: var(--brun);
+      padding: 1rem 1.25rem;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+    }
+
+    footer p strong { color: var(--or); }
+
+    /* ── Fermer modal avec Échap ── */
+    /* géré en JS */
+  </style>
+</head>
 
 <body>
 
-<h2><i>L'UNIVERS PHOTO DE ESI</i></h2>
+  <!-- ══ En-tête ══ -->
+  <header>
+    <div class="header-title">
+      Galerie
+      <span>Ecole Supérieure d'Informatique</span>
+    </div>
+    <a href="index.html" class="btn-quitter">Quitter</a>
+  </header>
 
-<!-- GRILLE -->
-<div class="row">
-  <div class="column">
-    <img src="Site du UNB.jpg" onclick="openModal();currentSlide(1)" class="hover-shadow cursor" alt="Le site UNB">
-  </div>
-  <div class="column">
-    <img src="Raconte de debut dannee.jpg" onclick="openModal();currentSlide(2)" class="hover-shadow cursor" alt="Raconte de debut dannee">
-  </div>
-  <div class="column">
-    <img src="Journee de salubrite.jpg" onclick="openModal();currentSlide(3)" class="hover-shadow cursor" alt="Journee de salubrite">
-  </div>
-  <div class="column">
-    <img src="Salubrite paticipants.jpg" onclick="openModal();currentSlide(4)" class="hover-shadow cursor" alt="Les participants de la journee de salubrite">
-  </div>
-  <div class="column">
-    <img src="Soutenance.jpg" onclick="openModal();currentSlide(5)" class="hover-shadow cursor" alt="Soutenance">
-  </div>
-  <div class="column">
-    <img src="Journee dintegration.jpg" onclick="openModal();currentSlide(6)" class="hover-shadow cursor" alt="Journee dintegration">
-  </div>
-  <div class="column">
-    <img src="Joueurs.jpg" onclick="openModal();currentSlide(7)" class="hover-shadow cursor" alt="Les joueurs de l'ESI">
-  </div>
-  <div class="column">
-    <img src="Hommage.jpg" onclick="openModal();currentSlide(8)" class="hover-shadow cursor" alt="Hommage au Docteur DANDJINOU">
-  </div>
-  <div class="column">
-    <video src="La salle des machines.mp4" onclick="openModal();currentSlide(9)" class="hover-shadow cursor" data-alt="La salle des machine">
-  </div>
-</div>
+  <!-- ══ Titre ══ -->
+  <h2 class="page-title"><i>L'UNIVERS PHOTO DE ESI</i></h2>
 
-<!-- MODAL -->
-<div id="myModal" class="modal">
-  <span class="close cursor" onclick="closeModal()">&times;</span>
-  <div class="modal-content">
+  <!-- ══ Grille ══ -->
+  <main>
+    <div class="gallery-grid">
 
-    <div class="mySlides">
-      <div class="numbertext">1 / 9</div>
-      <img src="Site du UNB.jpg" style="width:100%" alt="Le site UNB">
-    </div>
-    <div class="mySlides">
-      <div class="numbertext">2 / 9</div>
-      <img src="Raconte de debut dannee.jpg" style="width:100%" alt="Raconte de debut dannee">
-    </div>
-    <div class="mySlides">
-      <div class="numbertext">3 / 9</div>
-      <img src="Journee de salubrite.jpg" style="width:100%" alt="Journee de salubrite">
-    </div>
-    <div class="mySlides">
-      <div class="numbertext">4 / 9</div>
-      <img src="Salubrite paticipants.jpg" style="width:100%" alt="Les participants de la journee de salubrite">
-    </div>
-    <div class="mySlides">
-      <div class="numbertext">5 / 9</div>
-      <img src="Soutenance.jpg" style="width:100%" alt="Soutenance">
-    </div>
-    <div class="mySlides">
-      <div class="numbertext">6 / 9</div>
-      <img src="Journee dintegration.jpg" style="width:100%" alt="Journee dintegration">
-    </div>
-    <div class="mySlides">
-      <div class="numbertext">7 / 9</div>
-      <img src="Joueurs.jpg" style="width:100%" alt="Les joueurs de l'ESI">
-    </div>
-    <div class="mySlides">
-      <div class="numbertext">8 / 9</div>
-      <img src="Hommage.jpg" style="width:100%" alt="Hommage au Docteur DANDJINOU">
-    </div>
-    <div class="mySlides">
-      <div class="numbertext">9 / 9</div>
-      <video src="La salle des machines.mp4" style="width:100%" controls data-alt="La salle des machines" ></video>
-    </div>
-
-    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-    <a class="next" onclick="plusSlides(1)">&#10095;</a>
-
-    <div class="caption-container">
-      <p id="caption"></p>
-    </div>
-
-    <!-- Miniatures -->
-    <div class="row" style="padding:10px; gap:6px; background:#4e0b0b;">
-      <div class="column" style="flex:0 0 calc(11.1% - 6px); max-width:calc(11.1% - 6px);">
-        <img class="demo cursor" src="Site du UNB.jpg" style="width:100%;height:60px;object-fit:cover;" onclick="currentSlide(1)" alt="Le site UNB">
-      </div>
-      <div class="column" style="flex:0 0 calc(11.1% - 6px); max-width:calc(11.1% - 6px);">
-        <img class="demo cursor" src="Raconte de debut dannee.jpg" style="width:100%;height:60px;object-fit:cover;" onclick="currentSlide(2)" alt="Raconte de debut dannee">
-      </div>
-      <div class="column" style="flex:0 0 calc(11.1% - 6px); max-width:calc(11.1% - 6px);">
-        <img class="demo cursor" src="Journee de salubrite.jpg" style="width:100%;height:60px;object-fit:cover;" onclick="currentSlide(3)" alt="Journee de salubrite">
-      </div>
-      <div class="column" style="flex:0 0 calc(11.1% - 6px); max-width:calc(11.1% - 6px);">
-        <img class="demo cursor" src="Salubrite paticipants.jpg" style="width:100%;height:60px;object-fit:cover;" onclick="currentSlide(4)" alt="Les participants de la journee de salubrite">
-      </div>
-      <div class="column" style="flex:0 0 calc(11.1% - 6px); max-width:calc(11.1% - 6px);">
-        <img class="demo cursor" src="Soutenance.jpg" style="width:100%;height:60px;object-fit:cover;" onclick="currentSlide(5)" alt="Soutenance">
-      </div>
-      <div class="column" style="flex:0 0 calc(11.1% - 6px); max-width:calc(11.1% - 6px);">
-        <img class="demo cursor" src="Journee dintegration.jpg" style="width:100%;height:60px;object-fit:cover;" onclick="currentSlide(6)" alt="Journee dintegration">
-      </div>
-      <div class="column" style="flex:0 0 calc(11.1% - 6px); max-width:calc(11.1% - 6px);">
-        <img class="demo cursor" src="Joueurs.jpg" style="width:100%;height:60px;object-fit:cover;" onclick="currentSlide(7)" alt="Les joueurs de l'ESI">
-      </div>
-      <div class="column" style="flex:0 0 calc(11.1% - 6px); max-width:calc(11.1% - 6px);">
-        <img class="demo cursor" src="Hommage.jpg" style="width:100%;height:60px;object-fit:cover;" onclick="currentSlide(8)" alt="Hommage au Docteur DANDJINOU">
+      <div class="media-card" onclick="openModal(1)">
+        <img src="Site du UNB.jpg" alt="Le site UNB">
+        <div class="card-overlay"></div>
+        <div class="card-label">Le site UNB</div>
       </div>
 
- <div class="column" style="flex:0 0 calc(11.1% - 6px); max-width:calc(11.1% - 6px); position:relative;">
-  <video class="demo cursor" data-alt="La salle des machines"
-         src="La salle des machines.mp4"
-         style="width:100%; height:60px; object-fit:cover; display:block;"
-         preload="metadata"
-         onloadedmetadata="this.currentTime=1">
-  </video>
-  <div onclick="currentSlide(9)"
-       style="position:absolute; top:0; left:0; width:100%; height:100%;
-              display:flex; align-items:center; justify-content:center; cursor:pointer;">
-    <span style="font-size:20px; color:rgb(13, 1, 1);">&#9654;</span>
-  </div>
-</div>
+      <div class="media-card" onclick="openModal(2)">
+        <img src="Raconte de debut dannee.jpg" alt="Raconte de debut dannee">
+        <div class="card-overlay"></div>
+        <div class="card-label">Raconte de debut dannee</div>
+      </div>
 
+      <div class="media-card" onclick="openModal(3)">
+        <img src="Journee de salubrite.jpg" alt="Journee de salubrite">
+        <div class="card-overlay"></div>
+        <div class="card-label">Journee de salubrite</div>
+      </div>
+
+      <div class="media-card" onclick="openModal(4)">
+        <img src="Salubrite paticipants.jpg" alt="Les participants de la journee de salubrite">
+        <div class="card-overlay"></div>
+        <div class="card-label">Les participants de la journee de salubrite</div>
+      </div>
+
+      <div class="media-card" onclick="openModal(5)">
+        <img src="Soutenance.jpg" alt="Soutenance">
+        <div class="card-overlay"></div>
+        <div class="card-label">Soutenance</div>
+      </div>
+
+      <div class="media-card" onclick="openModal(6)">
+        <img src="Journee dintegration.jpg" alt="Journee dintegration">
+        <div class="card-overlay"></div>
+        <div class="card-label">Journee dintegration</div>
+      </div>
+
+      <div class="media-card" onclick="openModal(7)">
+        <img src="Joueurs.jpg" alt="Les joueurs de l'ESI">
+        <div class="card-overlay"></div>
+        <div class="card-label">Les joueurs de l'ESI</div>
+      </div>
+
+      <div class="media-card" onclick="openModal(8)">
+        <img src="Hommage.jpg" alt="Hommage au Docteur DANDJINOU">
+        <div class="card-overlay"></div>
+        <div class="card-label">Hommage au Docteur DANDJINOU</div>
+      </div>
+
+      <div class="media-card" onclick="openModal(9)">
+        <video src="La salle des machines.mp4" preload="metadata"
+               onloadedmetadata="this.currentTime=1" muted></video>
+        <div class="card-overlay"></div>
+        <div class="video-play-icon">&#9654;</div>
+        <div class="card-label">La salle des machines</div>
+      </div>
 
     </div>
+  </main>
 
-  </div>
-</div>
+  <!-- ══ Modal ══ -->
+  <div id="myModal" class="modal" role="dialog" aria-modal="true">
 
-<script>
-  function openModal() {
-    document.getElementById("myModal").style.display = "block";
-  }
+    <button class="btn-close" onclick="closeModal()" aria-label="Fermer">&times;</button>
 
-  function closeModal() {
-    document.getElementById("myModal").style.display = "none";
-  }
+    <div class="modal-inner">
 
-  var slideIndex = 1;
-  showSlides(slideIndex);
+      <!-- Slides -->
+      <div class="mySlides">
+        <div class="numbertext">1 / 9</div>
+        <img src="Site du UNB.jpg" alt="Le site UNB">
+        <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+        <button class="next" onclick="plusSlides(1)">&#10095;</button>
+      </div>
 
-  function plusSlides(n) {
-    showSlides(slideIndex += n);
-  }
+      <div class="mySlides">
+        <div class="numbertext">2 / 9</div>
+        <img src="Raconte de debut dannee.jpg" alt="Raconte de debut dannee">
+        <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+        <button class="next" onclick="plusSlides(1)">&#10095;</button>
+      </div>
 
-  function currentSlide(n) {
-    showSlides(slideIndex = n);
-  }
+      <div class="mySlides">
+        <div class="numbertext">3 / 9</div>
+        <img src="Journee de salubrite.jpg" alt="Journee de salubrite">
+        <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+        <button class="next" onclick="plusSlides(1)">&#10095;</button>
+      </div>
 
-  function showSlides(n) {
-    var i;
-    var slides = document.getElementsByClassName("mySlides");
-    var dots = document.getElementsByClassName("demo");
-    var captionText = document.getElementById("caption");
-    if (n > slides.length) { slideIndex = 1 }
-    if (n < 1) { slideIndex = slides.length }
-    for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";
+      <div class="mySlides">
+        <div class="numbertext">4 / 9</div>
+        <img src="Salubrite paticipants.jpg" alt="Les participants de la journee de salubrite">
+        <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+        <button class="next" onclick="plusSlides(1)">&#10095;</button>
+      </div>
+
+      <div class="mySlides">
+        <div class="numbertext">5 / 9</div>
+        <img src="Soutenance.jpg" alt="Soutenance">
+        <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+        <button class="next" onclick="plusSlides(1)">&#10095;</button>
+      </div>
+
+      <div class="mySlides">
+        <div class="numbertext">6 / 9</div>
+        <img src="Journee dintegration.jpg" alt="Journee dintegration">
+        <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+        <button class="next" onclick="plusSlides(1)">&#10095;</button>
+      </div>
+
+      <div class="mySlides">
+        <div class="numbertext">7 / 9</div>
+        <img src="Joueurs.jpg" alt="Les joueurs de l'ESI">
+        <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+        <button class="next" onclick="plusSlides(1)">&#10095;</button>
+      </div>
+
+      <div class="mySlides">
+        <div class="numbertext">8 / 9</div>
+        <img src="Hommage.jpg" alt="Hommage au Docteur DANDJINOU">
+        <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+        <button class="next" onclick="plusSlides(1)">&#10095;</button>
+      </div>
+
+      <div class="mySlides">
+        <div class="numbertext">9 / 9</div>
+        <video src="La salle des machines.mp4" controls data-alt="La salle des machines"></video>
+        <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+        <button class="next" onclick="plusSlides(1)">&#10095;</button>
+      </div>
+
+      <!-- Légende -->
+      <div class="caption-bar">
+        <p id="caption"></p>
+      </div>
+
+      <!-- Miniatures -->
+      <div class="thumbs-strip" id="thumbsStrip">
+
+        <img class="thumb" src="Site du UNB.jpg"
+             alt="Le site UNB" onclick="currentSlide(1)">
+
+        <img class="thumb" src="Raconte de debut dannee.jpg"
+             alt="Raconte de debut dannee" onclick="currentSlide(2)">
+
+        <img class="thumb" src="Journee de salubrite.jpg"
+             alt="Journee de salubrite" onclick="currentSlide(3)">
+
+        <img class="thumb" src="Salubrite paticipants.jpg"
+             alt="Les participants de la journee de salubrite" onclick="currentSlide(4)">
+
+        <img class="thumb" src="Soutenance.jpg"
+             alt="Soutenance" onclick="currentSlide(5)">
+
+        <img class="thumb" src="Journee dintegration.jpg"
+             alt="Journee dintegration" onclick="currentSlide(6)">
+
+        <img class="thumb" src="Joueurs.jpg"
+             alt="Les joueurs de l'ESI" onclick="currentSlide(7)">
+
+        <img class="thumb" src="Hommage.jpg"
+             alt="Hommage au Docteur DANDJINOU" onclick="currentSlide(8)">
+
+        <div class="thumb-video-wrap" onclick="currentSlide(9)" data-alt="La salle des machines">
+          <video src="La salle des machines.mp4" preload="metadata"
+                 onloadedmetadata="this.currentTime=1" muted></video>
+          <div class="play-badge">&#9654;</div>
+        </div>
+
+      </div>
+    </div><!-- /.modal-inner -->
+  </div><!-- /#myModal -->
+
+  <!-- ══ Footer ══ -->
+  <footer>
+    <p>&copy; 2026 <strong>Ecole Supérieure d'Informatique</strong> | Promotion 2025-2026. Tous droits réservés.</p>
+  </footer>
+
+  <!-- ══ Script ══ -->
+  <script>
+    let slideIndex = 1;
+
+    function openModal(n) {
+      document.getElementById('myModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      currentSlide(n);
     }
-    for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" active", "");
+
+    function closeModal() {
+      const modal = document.getElementById('myModal');
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      // Mettre en pause la vidéo si active
+      const videos = modal.querySelectorAll('video');
+      videos.forEach(v => v.pause());
     }
-    slides[slideIndex - 1].style.display = "block";
-    dots[slideIndex - 1].className += " active";
-    captionText.innerHTML = dots[slideIndex - 1].alt|| dots [slideIndex-1].getAttribute("data-alt");
-  }
-</script>
+
+    function plusSlides(n) {
+      currentSlide(slideIndex + n);
+    }
+
+    function currentSlide(n) {
+      const slides  = document.querySelectorAll('.mySlides');
+      const thumbs  = document.querySelectorAll('#thumbsStrip .thumb, #thumbsStrip .thumb-video-wrap');
+      const caption = document.getElementById('caption');
+
+      if (n > slides.length) { slideIndex = 1; }
+      else if (n < 1)        { slideIndex = slides.length; }
+      else                   { slideIndex = n; }
+
+      // Cacher toutes les slides et mettre en pause les vidéos
+      slides.forEach(s => {
+        s.classList.remove('active');
+        const vid = s.querySelector('video');
+        if (vid) vid.pause();
+      });
+
+      // Désactiver toutes les miniatures
+      thumbs.forEach(t => t.classList.remove('active'));
+
+      // Afficher la slide active
+      slides[slideIndex - 1].classList.add('active');
+
+      // Activer la miniature correspondante
+      if (thumbs[slideIndex - 1]) {
+        thumbs[slideIndex - 1].classList.add('active');
+      }
+
+      // Mettre à jour la légende
+      const activeThumb = thumbs[slideIndex - 1];
+      if (activeThumb) {
+        caption.textContent =
+          activeThumb.getAttribute('alt') ||
+          activeThumb.getAttribute('data-alt') || '';
+      }
+    }
+
+    // Fermer avec la touche Échap
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowRight') plusSlides(1);
+      if (e.key === 'ArrowLeft')  plusSlides(-1);
+    });
+
+    // Fermer en cliquant sur le fond du modal
+    document.getElementById('myModal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+  </script>
 
 </body>
 </html>
