@@ -1,168 +1,296 @@
-<!DOCTYPE html> 
-<html lang="fr"> 
-<head> 
-<meta charset="UTF-8"> 
-<title>PROJET 2 </title> 
-<link rel="stylesheet" href="tpFichier-style.css"> 
-<meta name="viewport" content="width=device-width, initial
-scale=1.0">
-<style>
-* {box-sizing: border-box;}
-body {font-family: Verdana, sans-serif;}
-.mySlides {display: none;}
-img {vertical-align: middle;}
+<!DOCTYPE html>
+<html lang="fr">
 
-/* Slideshow container */
-.slideshow-container {
-  max-width: 1000px;
-  position: a;
-  margin: auto;
-}
-.text {
-  color: #141c37;
-  font-size: 15px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
-  text-align: center;
-}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PROJET 2</title>
+  <link rel="stylesheet" href="tpFichier-style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
+    body {
+      font-family: Verdana, sans-serif;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
 
-.dot {
-  
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #000000;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 2.6s ease;
-}
+    /* ── Logo UBD (en-tête) ── */
+    .logo-header {
+      margin-left: 625px;
+    }
 
-.active {
-  background-color:white;
-}
+    /* ── Barre de marque ESI ── */
+    #nav-brand {
+      margin-left: 560px;
+    }
 
-.fade {
-  animation-name: fade;
-  animation-duration: 2.5s;
-}
+    #nav-brand .container ul {
+      background-color: rgb(33, 20, 3);
+    }
 
-@keyframes fade {
-  from {opacity: .4} 
-  to {opacity: 1}
-}
+    #nav-brand .container ul p {
+      border: 20px solid;
+      border-radius: 20px;
+      border-color: rgba(164, 127, 74, 0.475);
+      color: #dcd9d9;
+    }
 
-@media only screen and (max-width: 100px) {
-  .text {font-size: 101px}
-}
-.marquee {
-      background-color: rgba(164, 127, 74, 0.475);
+    /* ── Slideshow ── */
+    .slideshow-container {
+      max-width: 1000px;
+      position: relative;
+      margin: auto;
+    }
+
+    .mySlides {
+      display: none;
+    }
+
+    img {
+      vertical-align: middle;
+    }
+
+    .mySlides img {
+      width: 1000px;
+      height: 550px;
+      display: grid;
+      place-items: center;
+      border-radius: 600px;
+    }
+
+    .mySlides.center {
+      text-align: center;
+    }
+
+    .text {
+      color: #141c37;
+      font-size: 15px;
+      padding: 8px 12px;
+      position: absolute;
+      bottom: 8px;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* ── Dots ── */
+    .dot {
+      height: 15px;
+      width: 15px;
+      margin: 0 2px;
+      background-color: #000000;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 2.6s ease;
+    }
+
+    .active {
+      background-color: white;
+    }
+
+    /* ── Animation fade ── */
+    .fade {
+      animation-name: fade;
+      animation-duration: 2.5s;
+    }
+
+    @keyframes fade {
+      from { opacity: 0.4; }
+      to   { opacity: 1;   }
+    }
+
+    @media only screen and (max-width: 100px) {
+      .text { font-size: 101px; }
+    }
+
+    /* ── Barre de navigation ── */
+    #nav {
+      border: 20px solid;
+      border-radius: 20px;
+      border-color: rgb(33, 20, 3);
+    }
+
+    #nav ul {
+      color: #f2f2f2;
+    }
+
+    #nav ul a {
+      color: #f2f2f2;
+      border-radius: 20px;
+    }
+
+    /* ── Contenu principal ── */
+    .new .content h2 {
+      /* hérité de tpFichier-style.css */
+    }
+
+    /* ── Administrateurs ── */
+    .animation-name .content {
+      /* hérité */
+    }
+
+    /* ── Footer ── */
+    #footer {
+      background-color: rgb(33, 20, 3);
+    }
+
+    #footer p {
+      background-color: #f2f2f2;
+    }
+
+    /* ── Marquee ── */
+    .marquee {
+      background-color: rgb(33, 20, 3);
       overflow: hidden;
     }
- .marquee p {
+
+    .marquee p {
       white-space: nowrap;
       font-size: 28px;
-      color: #0a0707;
+      color: rgb(194, 192, 188);
       padding: 2px;
       animation: scroll 6s linear infinite;
     }
+
     @keyframes scroll {
-    100%{ transform: translateX(100%); 
-      0%{ transform: translateX(-100%); }
+      0%   { transform: translateX(100%);  }
+      100% { transform: translateX(-100%); }
     }
-</style>
+  </style>
 </head>
-<body style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-<div class="content" style="margin-left: 625px"><img src="UBD_logo.png" alt="logo de UNB" width="100px" height="100px"></div>
-<div id="nav" style="margin-left:560px"> 
-  <div class="container">
-<ul  style="background-color: rgb(33, 20, 3);" > 
-<li><img src="ESI.jpg" alt="logo de ESI" width="100px" height="100px"></li> 
-<li><p style="border:20px solid ;border-radius: 20px ;border-color: rgba(164, 127, 74, 0.475);color: #dcd9d9;;"> Ecole Superieure d'Informatique</p></li> 
-</ul> 
-</div>
-</div>
-<div class="slideshow-container">
-<div class="mySlides fade">
-  <img src="COMPUTER.jpg" style="width: 1000px ;height: 550px;display: grid; place-items: center; height: 500px;border-radius: 600px; ">
-</div>
 
-<div class="mySlides fade" style="text-align: center;">
-  <img src="Composante.jpg" style="width:1000px;height: 550px; text-align: center  ;display: grid; place-items: center; height: 500px;border-radius: 600px;">
-</div>
+<body>
 
-<div class="mySlides fade">
-  <img src="DESC.jpg" style="width: 1000px;height:550px;display: grid; place-items: center; height: 500px;border-radius: 600px;">
-</div>
-</div>
-<br>
+  <!-- ── Logo UBD ── -->
+  <div class="content logo-header">
+    <img src="UBD_logo.png" alt="logo de UNB" width="100px" height="100px">
+  </div>
 
-<div style="text-align:center">
-  <span class="dot"></span> 
-  <span class="dot"></span> 
-  <span class="dot"></span> 
-</div>
+  <!-- ── Barre de marque ESI ── -->
+  <div id="nav-brand">
+    <div class="container">
+      <ul>
+        <li><img src="ESI.jpg" alt="logo de ESI" width="100px" height="100px"></li>
+        <li><p>Ecole Superieure d'Informatique</p></li>
+      </ul>
+    </div>
+  </div>
 
-<script>
-let slideIndex = 0;
-showSlides();
-function showSlides() {
-  let i;
-  let slides = document.getElementsByClassName("mySlides");
-  let dots = document.getElementsByClassName("dot");
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";  
-  }
-  slideIndex++;
-  if (slideIndex > slides.length) {slideIndex = 1}    
-  for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
-  }
-  slides[slideIndex-1].style.display = "block";  
-  dots[slideIndex-1].className += " active";
-  setTimeout(showSlides, 2000);
-}
-</script> 
-</head> 
-<body> 
-<div id="nav" style="border: 20px solid ;border-radius: 20px;border-color:  rgb(33, 20, 3);"> 
-<ul  style="color: #f2f2f2;"> 
-<li><a href="index.html"  style="color: #f2f2f2;border-radius: 20px;" >Accueil</a></li> 
-<li><a href="Académique.html" style="color: #f2f2f2;border-radius: 20px;">Académique</a></li> 
-<li><a href="Admission.html"  style="color: #f2f2f2;border-radius: 20px;">Adimission</a></li> 
-<li><a href="Galerie.html"  style="color: #f2f2f2;border-radius: 20px;">Galerie</a></li> 
-</ul> 
-</div> 
-<!-- Contenu Principal avec div pour les news --> 
-<div class="new"> 
-<div class="content"> 
-<h2>Une petite introduction de "ESI"</h2> 
-<p>Ouverte à la rentrée 1990-1991 à Ouagadougou, l'Ecole Supérieure d'Informatique (ESI) est le premier établissement public d'enseignement supérieur en informatique du Burkina Faso.Dans un monde ou la technologie s'est implanté dans tous les activités humaines,l'ESI se charge de mettre à la disposion des étudiants la meilleur façon qui puisse exister afin de booster le BURKINA FASO au sommet du devéloppement et d'une révolution total et réelle.L'ESI c'est bien plus qu'une école informatique . C'est un tremplein vers l'excelence.Ici on se contente pas d'apprendre à coder:on apprend à concevoir des solutions innovantes; à travailler en équipe comme dans le monde professionnel,et à devenir des ingénieurs complets,récherchés dès la sortie.Les débauchés sont nombreux(cybersécurité,data science,IAdéveloppement..),le niveau est exigeant et l'ambiance entre étudiants est fraternelle et soidaire. Si vous voulez alliez passion pour la technologie et avenir promotteur.ESI est le bon choixb après le BAC!!!  </p> 
-</div> 
-</div> 
-</div> 
-<div class="animation-name">
-  <dir class="content"><b><i>Les administrateurs de la page sont:</i></b>
+  <!-- ── Diaporama ── -->
+  <div class="slideshow-container">
+
+    <div class="mySlides fade">
+      <img src="COMPUTER.jpg" alt="Ordinateur">
+    </div>
+
+    <div class="mySlides fade center">
+      <img src="Composante.jpg" alt="Composantes">
+    </div>
+
+    <div class="mySlides fade">
+      <img src="DESC.jpg" alt="Description">
+    </div>
+
+  </div>
+
+  <br>
+
+  <!-- ── Indicateurs (dots) ── -->
+  <div style="text-align: center;">
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+
+  <!-- ── Barre de navigation ── -->
+  <div id="nav">
     <ul>
-      <li><b>GANOU Gnientowô Regina Margaret</b></li>
-      <li><b>GUIBILA Nouratou</b></li>
-      <li><b>KABORE Latifatou</b></li>
-      <Li><b>SAGNON Mahinkié</b></Li>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="Académique.html">Académique</a></li>
+      <li><a href="Admission.html">Adimission</a></li>
+      <li><a href="Galerie.html">Galerie</a></li>
     </ul>
-  </dir>
-</div>
+  </div>
 
-     <div><img src="UBD_logo.png" alt="logo de UNB" width="100px" height="100px"></div>
-    <div id="footer" style="background-color:  rgb(33, 20, 3);"> 
-        <p style="background-color: #f2f2f2;">&copy; 2026 Ecole Supérieure d'Informatique Info|Promotion 2025-2026. Tous droits réservés.</p>
-         <div class="kingster-copyright-wrapper">
-          </div>
-          </div>
-          <div class="marquee" style="background-color:  rgb(33, 20, 3);">
-            <p style="color:  rgb(194, 192, 188);">Bienvenue dans l'univers de la programmation et du réseaux la où les élites immergent."</p>
-          </div>
+  <!-- ── Contenu principal ── -->
+  <div class="new">
+    <div class="content">
+      <h2>Une petite introduction de "ESI"</h2>
+      <p>
+        Ouverte à la rentrée 1990-1991 à Ouagadougou, l'Ecole Supérieure d'Informatique (ESI) est le premier
+        établissement public d'enseignement supérieur en informatique du Burkina Faso. Dans un monde ou la technologie
+        s'est implanté dans tous les activités humaines, l'ESI se charge de mettre à la disposion des étudiants la
+        meilleur façon qui puisse exister afin de booster le BURKINA FASO au sommet du devéloppement et d'une révolution
+        total et réelle. L'ESI c'est bien plus qu'une école informatique. C'est un tremplein vers l'excelence. Ici on
+        se contente pas d'apprendre à coder : on apprend à concevoir des solutions innovantes ; à travailler en équipe
+        comme dans le monde professionnel, et à devenir des ingénieurs complets, récherchés dès la sortie. Les débauchés
+        sont nombreux (cybersécurité, data science, IA, développement..), le niveau est exigeant et l'ambiance entre
+        étudiants est fraternelle et soidaire. Si vous voulez alliez passion pour la technologie et avenir promotteur,
+        ESI est le bon choix après le BAC !!!
+      </p>
+    </div>
+  </div>
 
-</body> 
-</html> 
+  <!-- ── Administrateurs ── -->
+  <div class="animation-name">
+    <div class="content">
+      <b><i>Les administrateurs de la page sont :</i></b>
+      <ul>
+        <li><b>GANOU Gnientowô Regina Margaret</b></li>
+        <li><b>GUIBILA Nouratou</b></li>
+        <li><b>KABORE Latifatou</b></li>
+        <li><b>SAGNON Mahinkié</b></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── Logo UBD (pied) ── -->
+  <div>
+    <img src="UBD_logo.png" alt="logo de UNB" width="100px" height="100px">
+  </div>
+
+  <!-- ── Footer ── -->
+  <div id="footer">
+    <p>&copy; 2026 Ecole Supérieure d'Informatique Info | Promotion 2025-2026. Tous droits réservés.</p>
+    <div class="kingster-copyright-wrapper"></div>
+  </div>
+
+  <!-- ── Marquee ── -->
+  <div class="marquee">
+    <p>Bienvenue dans l'univers de la programmation et du réseaux la où les élites immergent.</p>
+  </div>
+
+  <!-- ── Script diaporama ── -->
+  <script>
+    let slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+      const slides = document.getElementsByClassName("mySlides");
+      const dots   = document.getElementsByClassName("dot");
+
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+
+      slideIndex++;
+      if (slideIndex > slides.length) { slideIndex = 1; }
+
+      for (let i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+
+      slides[slideIndex - 1].style.display = "block";
+      dots[slideIndex - 1].className += " active";
+
+      setTimeout(showSlides, 2000);
+    }
+  </script>
+
+</body>
+</html>
