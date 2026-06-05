@@ -1,84 +1,375 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-<meta charset="UTF-8"> 
-<title>Admission</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admission — ESI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --or:      #a47f4a;
+      --or-pale: rgba(164, 127, 74, 0.18);
+      --brun:    rgb(33, 20, 3);
+      --creme:   #f5f0e8;
+      --texte:   #1a1208;
+      --blanc:   #ffffff;
+      --radius:  12px;
+      --gris-input: hsl(210, 19%, 94%);
+      --bordure-input: #ced6db;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lato', Arial, sans-serif;
+      background-color: var(--creme);
+      color: var(--texte);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── En-tête ── */
+    header {
+      background-color: var(--brun);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .header-title {
+      font-family: 'Playfair Display', serif;
+      color: var(--blanc);
+      font-size: clamp(1rem, 3vw, 1.4rem);
+    }
+
+    .header-title span {
+      display: block;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      margin-top: 2px;
+    }
+
+    .btn-quitter {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1.1rem;
+      background: transparent;
+      border: 1.5px solid var(--or);
+      border-radius: 999px;
+      color: var(--or);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-quitter:hover {
+      background: var(--or);
+      color: var(--brun);
+    }
+
+    .btn-quitter::before {
+      content: '←';
+      font-size: 1rem;
+    }
+
+    /* ── Contenu principal ── */
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 700px;
+      margin: 2.5rem auto;
+      padding: 0 1.25rem;
+    }
+
+    /* ── Carte formulaire ── */
+    .form-card {
+      background: var(--blanc);
+      border-radius: var(--radius);
+      border: 1px solid rgba(164, 127, 74, 0.25);
+      padding: clamp(1.25rem, 4vw, 2.25rem);
+    }
+
+    /* ── Titres de section ── */
+    .form-section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: var(--brun);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--or);
+    }
+
+    .form-section-title + .form-section-title,
+    .form-section + .form-section {
+      margin-top: 2rem;
+    }
+
+    /* ── Grille de champs ── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-grid .full {
+      grid-column: 1 / -1;
+    }
+
+    /* ── Champ individuel ── */
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .field label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--brun);
+      letter-spacing: 0.02em;
+    }
+
+    .field input[type="text"],
+    .field input[type="date"],
+    .field input[type="tel"] {
+      width: 100%;
+      padding: 0.65rem 0.9rem;
+      background-color: var(--gris-input);
+      border: 1px solid var(--bordure-input);
+      border-radius: 8px;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.95rem;
+      color: var(--texte);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    .field input:focus {
+      border-color: var(--or);
+      box-shadow: 0 0 0 3px rgba(164, 127, 74, 0.15);
+    }
+
+    /* ── Sexe (radio) ── */
+    .radio-group {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.2rem;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    .radio-option input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--or);
+      cursor: pointer;
+      flex-shrink: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+    .radio-option span {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--brun);
+    }
+
+    /* ── Actions ── */
+    .form-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.85rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-submit {
+      padding: 0.7rem 2rem;
+      background-color: var(--brun);
+      color: var(--blanc);
+      border: none;
+      border-radius: 999px;
+      font-family: 'Lato', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--or);
+      color: var(--brun);
+      transform: translateY(-1px);
+    }
+
+    /* ── Footer ── */
+    footer {
+      background-color: var(--brun);
+      padding: 1rem 1.25rem;
+      text-align: center;
+      margin-top: auto;
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+    }
+
+    footer p strong {
+      color: var(--or);
+    }
+
+    /* ── Responsive mobile ── */
+    @media (max-width: 520px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid .full {
+        grid-column: 1;
+      }
+
+      .form-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+      }
+
+      .btn-submit,
+      .btn-quitter {
+        text-align: center;
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<h1>Formulaire d’Admission</h1>
-<form>
-<b>Nom :</b> <input type="text">
-<b>Prénom </b> <input type="text">
-<b>Date de naissance </b>:
-<input type="date"><br><br>
-<b>Sexe</b> :<br><br>
+  <!-- ══ En-tête ══ -->
+  <header>
+    <div class="header-title">
+      Admission
+      <span>Ecole Supérieure d'Informatique</span>
+    </div>
+    <a href="index.html" class="btn-quitter">Quitter</a>
+  </header>
 
-<div style="display: flex; align-items: center; gap: 10px;">
-  
-  <label for="homme"><b>Homme</b></label>
-  <input type="radio" name="sexe" id="homme"><br>
-</div>
+  <!-- ══ Formulaire ══ -->
+  <main>
+    <div class="form-card">
+      <form>
 
-<div style="display: flex; align-items: center; gap: 10px;">
-  
-  <label for="femme"><b>Femme</b></label>
-  <input type="radio" name="sexe" id="femme">
-</div>
-<br><br>
+        <!-- Section : Informations personnelles -->
+        <h2 class="form-section-title">Formulaire d'Admission</h2>
 
-<b>Téléphone</b> :
-<input type="tel">
-<h1>Renseignements Academiques</h1>
-<b>Diplome actuel:</b> <input type="text">
-<b>Date:</b><input type="data">
-<b>Mention:</b>  <input type="text">
- <b>Etablissement d'origine:</b> <input type="text"><br><br>
- <a href="index.html" style="background-color:black">Quitter</a>
- <input type="submit" value="Envoyer">
-</form>
-<div class="sidenav">
-</div>
-<style>
-body{
-  background-color: rgb(100, 78, 46);
-    font-family:Arial;
-}
+        <div class="form-grid">
 
-h1{
-  color:#000000e2;
-  text-align:center;
-}
+          <div class="field">
+            <label for="nom">Nom</label>
+            <input type="text" id="nom" name="nom" placeholder="Votre nom">
+          </div>
 
-form{ 
-  background-color: rgb(100, 78, 46);
-  width:90%;
-  margin:auto;
-  padding:20px;
-  border-radius:12px;
-}
+          <div class="field">
+            <label for="prenom">Prénom</label>
+            <input type="text" id="prenom" name="prenom" placeholder="Votre prénom">
+          </div>
 
-input, select{
-  width:100%;
-  padding:10px;
-  margin-top:5px;
-  margin-bottom:12px;
-  background-color:hsl(210, 19%, 94%);
-  border:1px solid #ced6db;
-  border-radius:8px;
-}
+          <div class="field">
+            <label for="ddn">Date de naissance</label>
+            <input type="date" id="ddn" name="date_naissance">
+          </div>
 
-input[type="submit"]{
-  background-color:#f1f7f2fe;
-  color:rgba(0, 0, 0, 0.803);
-  border:none;
-  font-size:18px;
-}
+          <div class="field">
+            <label for="tel">Téléphone</label>
+            <input type="tel" id="tel" name="telephone" placeholder="+226 XX XX XX XX">
+          </div>
 
-input[type="submit"]:hover{
-  background-color:rgb(33, 20, 3);
-}
-</style>
+          <div class="field full">
+            <label>Sexe</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="sexe" id="homme" value="homme">
+                <span>Homme</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="sexe" id="femme" value="femme">
+                <span>Femme</span>
+              </label>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Section : Renseignements académiques -->
+        <h2 class="form-section-title" style="margin-top: 2rem;">Renseignements Académiques</h2>
+
+        <div class="form-grid">
+
+          <div class="field">
+            <label for="diplome">Diplôme actuel</label>
+            <input type="text" id="diplome" name="diplome" placeholder="Ex : Baccalauréat">
+          </div>
+
+          <div class="field">
+            <label for="date-diplome">Date d'obtention</label>
+            <input type="date" id="date-diplome" name="date_diplome">
+          </div>
+
+          <div class="field">
+            <label for="mention">Mention</label>
+            <input type="text" id="mention" name="mention" placeholder="Ex : Assez bien">
+          </div>
+
+          <div class="field">
+            <label for="etablissement">Établissement d'origine</label>
+            <input type="text" id="etablissement" name="etablissement" placeholder="Nom de l'établissement">
+          </div>
+
+        </div>
+
+        <!-- Boutons -->
+        <div class="form-actions">
+          <input type="submit" value="Envoyer la demande" class="btn-submit">
+        </div>
+
+      </form>
+    </div>
+  </main>
+
+  <!-- ══ Footer ══ -->
+  <footer>
+    <p>&copy; 2026 <strong>Ecole Supérieure d'Informatique</strong> | Promotion 2025-2026. Tous droits réservés.</p>
+  </footer>
+
 </body>
 </html>
